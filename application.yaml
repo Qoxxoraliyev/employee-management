@@ -12,16 +12,12 @@ spring:
     show-sql: true
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-file:
-  upload-dir: C:/employee_uploads
-
-jwt:
-  secret: "verylongsecretkey-shouldbeatleast32characters!!"
-
 springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    url: /v3/api-docs
   api-docs:
     path: /v3/api-docs
-  swagger-ui:
-    path: /swagger-ui/index.html
 
-
+jwt:
+  secret: your-256-bit-secret-key-here-should-be-at-least-32-chars-long!!
