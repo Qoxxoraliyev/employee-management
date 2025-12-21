@@ -75,16 +75,6 @@ public class SalaryController {
     }
 
 
-    @Operation(summary = "Download salary report (PDF)")
-    @GetMapping("/pdf/{employeeId}")
-    public ResponseEntity<byte[]> downloadSalaryReport(@PathVariable Long employeeId){
-        byte[] pdf=salaryService.generateSalaryReport(employeeId);
-        return ResponseEntity.ok()
-                .header("Content-Disposition","attachment; filename=salary_report_"+employeeId+".pdf")
-                .contentType(MediaType.APPLICATION_PDF)
-                .body(pdf);
-    }
-
 
     @GetMapping("/range")
     public ResponseEntity<List<SalaryResponseDTO>> getByDateRange(

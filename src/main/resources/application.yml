@@ -1,27 +1,26 @@
 server:
   port: 8080
+
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/employee_management
+    url: jdbc:postgresql://postgres:5432/employee_management
     username: mohirdev
     password: 123
-    driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-file:
-  upload-dir: C:/employee_uploads
 
 jwt:
   secret: "verylongsecretkey-shouldbeatleast32characters!!"
+
+file:
+  upload-dir: /app/uploads
 
 springdoc:
   api-docs:
     path: /v3/api-docs
   swagger-ui:
     path: /swagger-ui/index.html
-
-

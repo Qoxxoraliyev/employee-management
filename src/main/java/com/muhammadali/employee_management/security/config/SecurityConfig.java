@@ -25,7 +25,8 @@ public class SecurityConfig {
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**",
                                 "/swagger-ui.html",
-                                "/webjars/**"
+                                "/webjars/**",
+                                "/docker"
                         ).permitAll()
                         .requestMatchers("/api/users/generateToken").permitAll()
                         .requestMatchers("/api/users").permitAll()
