@@ -6,7 +6,6 @@ WORKDIR /workspace
 
 COPY gradlew settings.gradle build.gradle ./
 COPY gradle gradle
-
 COPY src src
 
 RUN ./gradlew bootJar --no-daemon
@@ -16,7 +15,11 @@ FROM eclipse-temurin:17-jre-alpine
 RUN addgroup -g 1000 appgroup && \
     adduser -u 1000 -G appgroup -s /bin/sh -D appuser
 
-RUN apk add --no-cache dumb-init
+RUN apk add --no-cache dumb-init && \
+    mkdir -p /app/uploads && \
+    chown -R appuser:appgroup /app/uploads
+
+WORKDIR /app
 
 COPY --from=builder /workspace/build/libs/*.jar app.jar
 
