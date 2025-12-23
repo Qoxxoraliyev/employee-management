@@ -9,8 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
-import static com.muhammadali.employee_management.enums.DepartmentStatType.TOP_EMPLOYEE_COUNT;
-import static com.muhammadali.employee_management.enums.DepartmentStatType.TOP_SALARY;
 
 @RestController
 @RequestMapping("/api/departments")
