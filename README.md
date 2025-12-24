@@ -245,7 +245,7 @@ jwt:
 
 Access API documentation at:
 
-http://localhost:8080/swagger-ui/index.html
+http://localhost:8081/swagger-ui/index.html
 
 
 JWT authentication is fully supported inside Swagger UI.
