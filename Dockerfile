@@ -8,7 +8,10 @@ COPY gradlew settings.gradle build.gradle ./
 COPY gradle gradle
 COPY src src
 
+RUN chmod +x ./gradlew
+
 RUN ./gradlew bootJar --no-daemon
+
 
 FROM eclipse-temurin:17-jre-alpine
 
