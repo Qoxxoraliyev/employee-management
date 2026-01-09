@@ -41,7 +41,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         try {
             username = jwtService.extractUsername(token);
         } catch (AuthenticationFailedException e) {
-            // token noto'g'ri yoki muddati o'tgan
+
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
             return;
         }
