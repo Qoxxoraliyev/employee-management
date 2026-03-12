@@ -3,9 +3,11 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://postgres:5432/employee_management
+    url: jdbc:postgresql://localhost:5432/employee_management
     username: mohirdev
     password: 123
+    driver-class-name: org.postgresql.Driver
+
   jpa:
     hibernate:
       ddl-auto: update
@@ -13,11 +15,16 @@ spring:
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
 jwt:
   secret: "verylongsecretkey-shouldbeatleast32characters!!"
 
 file:
-  upload-dir: /app/uploads
+  upload-dir: uploads/
 
 springdoc:
   api-docs:
