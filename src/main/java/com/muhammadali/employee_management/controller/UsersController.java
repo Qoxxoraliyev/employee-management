@@ -2,7 +2,13 @@ package com.muhammadali.employee_management.controller;
 import com.muhammadali.employee_management.dto.UsersRequestDTO;
 import com.muhammadali.employee_management.dto.UsersResponseDTO;
 import com.muhammadali.employee_management.dto.auth.LoginRequestDTO;
+import com.muhammadali.employee_management.dto.auth.LoginResponseDTO;
+import com.muhammadali.employee_management.dto.auth.RefreshRequest;
+import com.muhammadali.employee_management.entity.RefreshToken;
+import com.muhammadali.employee_management.entity.Users;
+import com.muhammadali.employee_management.repository.UsersRepository;
 import com.muhammadali.employee_management.security.jwt.JwtService;
+import com.muhammadali.employee_management.service.RefreshTokenService;
 import com.muhammadali.employee_management.service.UsersService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +31,10 @@ public class UsersController {
     private final AuthenticationManager authenticationManager;
 
     private final JwtService jwtService;
+
+    private final RefreshTokenService refreshTokenService;
+
+    private final UsersRepository usersRepository;
 
 
     @PostMapping
@@ -58,20 +68,58 @@ public class UsersController {
     }
 
 
-    @PostMapping("/generateToken")
-    public String authenticateAndGetToken(@RequestBody LoginRequestDTO
-                                          loginRequestDTO){
-        Authentication authentication=authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequestDTO.username(),
-                        loginRequestDTO.password())
-        );
-        if (authentication.isAuthenticated()){
-            return jwtService.generateToken(loginRequestDTO.username());
+    @PostMapping("/login")
+    public LoginResponseDTO login(@RequestBody LoginRequestDTO dto){
+
+        Authentication authentication =
+                authenticationManager.authenticate(
+                        new UsernamePasswordAuthenticationToken(
+                                dto.username(),
+                                dto.password()
+                        )
+                );
+
+        if(authentication.isAuthenticated()){
+
+            Users user = usersRepository.findByEmail(dto.username())
+                    .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+            String accessToken = jwtService.generateToken(dto.username());
+
+            String refreshToken = jwtService.generateRefreshToken(dto.username());
+
+            refreshTokenService.save(user, refreshToken);
+
+            return new LoginResponseDTO(accessToken, refreshToken, "Bearer");
         }
-        else {
-            throw  new UsernameNotFoundException("Invalid user request");
-        }
+
+        throw new UsernameNotFoundException("Invalid credentials");
     }
+
+
+    @PostMapping("/refresh")
+    public LoginResponseDTO refresh(@RequestBody RefreshRequest request){
+
+        RefreshToken refreshToken =
+                refreshTokenService.verify(request.refreshToken());
+
+        String email = refreshToken.getUser().getEmail();
+
+        String accessToken = jwtService.generateToken(email);
+
+        return new LoginResponseDTO(
+                accessToken,
+                refreshToken.getToken(),
+                "Bearer"
+        );
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(@RequestBody RefreshRequest request){
+        refreshTokenService.delete(request.refreshToken());
+        return ResponseEntity.ok("Logged out successfully");
+    }
+
 
 
     @GetMapping("/by-role")

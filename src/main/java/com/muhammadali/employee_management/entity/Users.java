@@ -10,6 +10,7 @@ import lombok.*;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Entity
 @Getter
@@ -51,6 +52,9 @@ public class Users implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Status status;
+
+    @OneToMany(mappedBy = "user")
+    private List<RefreshToken> refreshTokens;
 
 
     @Column(nullable = false)

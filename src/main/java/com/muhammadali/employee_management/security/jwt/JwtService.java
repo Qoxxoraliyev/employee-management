@@ -48,6 +48,19 @@ public class JwtService {
     }
 
 
+    public String generateRefreshToken(String email){
+        Map<String,Object> clims=new HashMap<>();
+        return Jwts.builder()
+                .setClaims(clims)
+                .setSubject(email)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis()+1000L*60*60*24*7))
+                .signWith(getSignKey(),SignatureAlgorithm.HS256)
+                .compact();
+    }
+
+
+
     private Key getSignKey(){
         byte[] keyBytes=secret.getBytes();
         return Keys.hmacShaKeyFor(keyBytes);
