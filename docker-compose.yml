@@ -1,15 +1,15 @@
 services:
   postgres:
-    image: postgres:18
+    image: postgres:15
     container_name: postgres
     environment:
       POSTGRES_USER: mohirdev
       POSTGRES_PASSWORD: 123
       POSTGRES_DB: employee_management
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql
+      - postgres_data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U mohirdev"]
       interval: 5s
@@ -31,15 +31,6 @@ services:
       SPRING_DATASOURCE_PASSWORD: 123
     volumes:
       - app_uploads:/app/uploads
-  test:
-    build: .
-    depends_on:
-      - postgres
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/employee_management
-      SPRING_DATASOURCE_USERNAME: mohirdev
-      SPRING_DATASOURCE_PASSWORD: 123
-    command: ./gradlew test --no-daemon
 
 volumes:
   postgres_data:
