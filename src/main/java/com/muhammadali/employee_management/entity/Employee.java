@@ -42,7 +42,7 @@ public class Employee implements Serializable {
     private LocalDate birthDate;
 
     @Temporal(TemporalType.DATE)
-    @Column(name = "hireDate")
+    @Column(name = "hire_date")
     private LocalDate hireDate;
 
 
