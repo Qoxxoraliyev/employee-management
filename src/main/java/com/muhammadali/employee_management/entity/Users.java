@@ -27,7 +27,7 @@ public class Users implements Serializable {
 
     @NotBlank(message = "Username cannot be blank")
     @Size(min = 3,max = 50,message = "Username must be between 3 and 50 characters")
-    @Column(name = "email",nullable = false,unique = true,length = 50)
+    @Column(name = "username",nullable = false,unique = true,length = 50)
     private String username;
 
     @NotBlank(message = "Password cannot be blank")
