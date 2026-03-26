@@ -34,6 +34,9 @@ public class SecurityConfig {
                                 "/v3/api-docs/swagger-config"
                         ).permitAll()
                         .requestMatchers("/api/users/generateToken").permitAll()
+                        .requestMatchers("/api/users/login").permitAll()
+                        .requestMatchers("/api/users/refresh").permitAll()
+                        .requestMatchers("/api/users/logout").authenticated()
                         .requestMatchers("/api/users").permitAll()
                         .requestMatchers("/api/users/**").hasAuthority("ADMIN")
                         .requestMatchers("/api/employees/save").hasAuthority("ADMIN")
