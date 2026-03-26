@@ -43,13 +43,13 @@ public class UsersController {
     }
 
 
-    @GetMapping("/by-username")
+    @GetMapping("/by-email")
     public ResponseEntity<UsersResponseDTO> getByUsername(@RequestParam String username){
         return ResponseEntity.ok(usersService.findByUsername(username));
     }
 
 
-    @GetMapping("/by-username-like")
+    @GetMapping("/by-email-like")
     public ResponseEntity<List<UsersResponseDTO>> getByUsernameLike(@RequestParam String username ){
         return ResponseEntity.ok(usersService.findByUsernameLike(username));
     }
@@ -74,19 +74,19 @@ public class UsersController {
         Authentication authentication =
                 authenticationManager.authenticate(
                         new UsernamePasswordAuthenticationToken(
-                                dto.username(),
+                                dto.email(),
                                 dto.password()
                         )
                 );
 
         if(authentication.isAuthenticated()){
 
-            Users user = usersRepository.findByEmail(dto.username())
+            Users user = usersRepository.findByEmail(dto.email())
                     .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-            String accessToken = jwtService.generateToken(dto.username());
+            String accessToken = jwtService.generateToken(dto.email());
 
-            String refreshToken = jwtService.generateRefreshToken(dto.username());
+            String refreshToken = jwtService.generateRefreshToken(dto.email());
 
             refreshTokenService.save(user, refreshToken);
 

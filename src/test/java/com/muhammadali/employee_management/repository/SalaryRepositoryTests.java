@@ -41,7 +41,7 @@ public class SalaryRepositoryTests {
     @DynamicPropertySource
     static void props(DynamicPropertyRegistry r) {
         r.add("spring.datasource.url", pg::getJdbcUrl);
-        r.add("spring.datasource.username", pg::getUsername);
+        r.add("spring.datasource.email", pg::getUsername);
         r.add("spring.datasource.password", pg::getPassword);
     }
 

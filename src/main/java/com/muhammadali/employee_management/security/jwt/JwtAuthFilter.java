@@ -51,7 +51,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             try {
                 userDetails = userDetailsService.loadUserByUsername(username);
             } catch (Exception e) {
-                throw new AuthenticationFailedException("User not found for username: " + username, e);
+                throw new AuthenticationFailedException("User not found for email: " + username, e);
             }
 
             try {

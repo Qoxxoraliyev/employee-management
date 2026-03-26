@@ -72,7 +72,7 @@ public class UsersControllerTests {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDTO)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.username").value("john"));
+                .andExpect(jsonPath("$.email").value("john"));
 
         verify(usersService).save(requestDTO);
     }
@@ -80,7 +80,7 @@ public class UsersControllerTests {
     @Test
     public void create_duplicateUsername() throws Exception {
         when(usersService.save(any(UsersRequestDTO.class)))
-                .thenThrow(new ResourceAlreadyExistsException("User", "username", "john"));
+                .thenThrow(new ResourceAlreadyExistsException("User", "email", "john"));
 
         mockMvc.perform(post("/api/users")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -94,9 +94,9 @@ public class UsersControllerTests {
     public void getByUsername_success() throws Exception {
         when(usersService.findByUsername("john")).thenReturn(responseDTO);
 
-        mockMvc.perform(get("/api/users/by-username").param("username", "john"))
+        mockMvc.perform(get("/api/users/by-email").param("email", "john"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.username").value("john"));
+                .andExpect(jsonPath("$.email").value("john"));
 
         verify(usersService).findByUsername("john");
     }
@@ -104,9 +104,9 @@ public class UsersControllerTests {
     @Test
     public void getByUsername_notFound() throws Exception {
         when(usersService.findByUsername("john"))
-                .thenThrow(new ResourceNotFoundException("User", "username", "john"));
+                .thenThrow(new ResourceNotFoundException("User", "email", "john"));
 
-        mockMvc.perform(get("/api/users/by-username").param("username", "john"))
+        mockMvc.perform(get("/api/users/by-email").param("email", "john"))
                 .andExpect(status().isNotFound());
 
         verify(usersService).findByUsername("john");
@@ -116,9 +116,9 @@ public class UsersControllerTests {
     public void getByUsernameLike_success() throws Exception {
         when(usersService.findByUsernameLike("jo")).thenReturn(List.of(responseDTO));
 
-        mockMvc.perform(get("/api/users/by-username-like").param("username", "jo"))
+        mockMvc.perform(get("/api/users/by-email-like").param("email", "jo"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].username").value("john"));
+                .andExpect(jsonPath("$[0].email").value("john"));
 
         verify(usersService).findByUsernameLike("jo");
     }
@@ -131,7 +131,7 @@ public class UsersControllerTests {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDTO)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.username").value("john"));
+                .andExpect(jsonPath("$.email").value("john"));
 
         verify(usersService).update(1L, requestDTO);
     }
@@ -139,7 +139,7 @@ public class UsersControllerTests {
     @Test
     public void update_duplicateUsername() throws Exception {
         when(usersService.update(eq(1L), any(UsersRequestDTO.class)))
-                .thenThrow(new ResourceAlreadyExistsException("User", "username", "john"));
+                .thenThrow(new ResourceAlreadyExistsException("User", "email", "john"));
 
         mockMvc.perform(put("/api/users/1")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -155,7 +155,7 @@ public class UsersControllerTests {
 
         mockMvc.perform(get("/api/users"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].username").value("john"));
+                .andExpect(jsonPath("$[0].email").value("john"));
 
         verify(usersService).findAll();
     }

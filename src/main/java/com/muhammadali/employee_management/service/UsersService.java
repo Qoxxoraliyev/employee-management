@@ -37,7 +37,7 @@ public class UsersService {
         Employee employee = getEmployeeById(dto.employeeId());
         Role role = getRoleById(dto.roleId());
         if (userRepository.findByUsername(dto.username()).isPresent()) {
-            throw new ResourceAlreadyExistsException("User", "username", dto.username());
+            throw new ResourceAlreadyExistsException("User", "email", dto.username());
         }
         if (userRepository.findByEmail(dto.email()).isPresent()) {
             throw new ResourceAlreadyExistsException("User", "email", dto.email());
@@ -60,7 +60,7 @@ public class UsersService {
 
     public UsersResponseDTO findByUsername(String username) {
         Users user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new ResourceNotFoundException("User", "username", username));
+                .orElseThrow(() -> new ResourceNotFoundException("User", "email", username));
         return UsersMapper.toResponse(user);
     }
 
@@ -72,7 +72,7 @@ public class UsersService {
         Role role = getRoleById(dto.roleId());
         userRepository.findByUsername(dto.username())
                 .filter(u -> !u.getId().equals(id))
-                .ifPresent(u -> { throw new ResourceAlreadyExistsException("User", "username", dto.username()); });
+                .ifPresent(u -> { throw new ResourceAlreadyExistsException("User", "email", dto.username()); });
         userRepository.findByEmail(dto.email())
                 .filter(u -> !u.getId().equals(id))
                 .ifPresent(u -> { throw new ResourceAlreadyExistsException("User", "email", dto.email()); });

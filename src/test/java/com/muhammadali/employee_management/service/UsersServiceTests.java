@@ -117,7 +117,7 @@ public class UsersServiceTests {
 
         assertThatThrownBy(() -> service.save(dto))
                 .isInstanceOf(ResourceAlreadyExistsException.class)
-                .hasMessageContaining("User already exists with username : 'john'");
+                .hasMessageContaining("User already exists with email : 'john'");
         verify(usersRepository, never()).save(any());
     }
 
@@ -163,7 +163,7 @@ public class UsersServiceTests {
 
         assertThatThrownBy(() -> service.findByUsername("john"))
                 .isInstanceOf(ResourceNotFoundException.class)
-                .hasMessageContaining("User not found with username : 'john'");
+                .hasMessageContaining("User not found with email : 'john'");
     }
 
 
@@ -199,7 +199,7 @@ public class UsersServiceTests {
 
         assertThatThrownBy(() -> service.update(10L, updateDto))
                 .isInstanceOf(ResourceAlreadyExistsException.class)
-                .hasMessageContaining("User already exists with username : 'john2'");
+                .hasMessageContaining("User already exists with email : 'john2'");
     }
 
     @Test

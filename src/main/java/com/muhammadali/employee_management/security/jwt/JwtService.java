@@ -71,7 +71,7 @@ public class JwtService {
         try {
             return extractClaim(token, Claims::getSubject);
         } catch (Exception e) {
-            throw new AuthenticationFailedException("Invalid token: cannot extract username", e);
+            throw new AuthenticationFailedException("Invalid token: cannot extract email", e);
         }
     }
 

@@ -41,7 +41,7 @@ public class EmployeeRepositoryTests {
     @DynamicPropertySource
     static void props(DynamicPropertyRegistry registry) {
         registry.add("spring.datasource.url", pg::getJdbcUrl);
-        registry.add("spring.datasource.username", pg::getUsername);
+        registry.add("spring.datasource.email", pg::getUsername);
         registry.add("spring.datasource.password", pg::getPassword);
     }
 
